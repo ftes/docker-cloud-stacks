@@ -1,0 +1,11 @@
+# substitute variables before uploading
+# $ TMP_FILE=`mktemp`; SSH_PUB_KEY=`cat ~/.ssh/id_rsa.pub` envsubst < stack > $TMP_FILE; docker-cloud stack update <stackname> -f $TMP_FILE
+
+authorizedkeys:
+  image: dockercloud/authorizedkeys
+  deployment_strategy: every_node
+  autodestroy: always
+  environment:
+    - AUTHORIZED_KEYS=$SSH_PUB_KEY
+  volumes:
+    - /root:/user:rw

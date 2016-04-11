@@ -1,0 +1,24 @@
+# substitute variables before uploading
+# $ EMAIL=admin@domain.com DOMAIN=domain.com MYSQL_ROOT_PASSWORD=`openssl rand -base64 32` envsubst < stack
+
+# or in one line (docker-cloud stack update does not accept stdin as input)
+# $ TMP_FILE=`mktemp`; EMAIL=admin@domain.com DOMAIN=domain.com MYSQL_ROOT_PASSWORD=`openssl rand -base64 32` envsubst < stack > $TMP_FILE; docker-cloud stack update <stack_name> -f $TMP_FILE
+
+# mysql tends to use a lot of memory (too much for 512m memory)
+# enable swapping on host first
+# $ fallocate -l 4G /swapfile; chmod 600 /swapfile; mkswap /swapfile; swapon /swapfile; echo '/swapfile   none    swap    sw    0   0' >> /etc/fstab
+
+mysql:
+  environment:
+  - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+  image: mariadb:latest
+wordpress:
+  environment:
+  - LETSENCRYPT_EMAIL=$EMAIL
+  - LETSENCRYPT_HOST=$DOMAIN
+  - VIRTUAL_HOST=$DOMAIN
+  expose:
+  - '80'
+  image: wordpress:latest
+  links:
+  - mysql
