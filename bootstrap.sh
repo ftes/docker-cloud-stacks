@@ -12,7 +12,7 @@ envsubst < authorizedkeys > $TMP_FILE; docker-cloud stack up -n authorizedkeys -
 
 # wait until nginx has started before running wordpress (--sync)
 envsubst < nginx-proxy    > $TMP_FILE; docker-cloud stack up -n nginx-proxy -f $TMP_FILE --sync
-envsubst < wordpress      > $TMP_FILE; docker-cloud stack up -n $NAME -f $TMP_FILE --sync
+envsubst < wordpress      > $TMP_FILE; docker-cloud stack up -n $NAME -f $TMP_FILE
 
-sleep 10
 xdg-open "http://$DOMAIN"
+echo
