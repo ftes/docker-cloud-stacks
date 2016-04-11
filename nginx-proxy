@@ -7,8 +7,9 @@ nginx-letsencrypt:
     - nginx-proxy
 nginx-proxy:
   image: 'ftes/nginx-proxy:latest'
-  environment:
-    - DEFAULT_HOST=$DOMAIN
+# rather specify top level domain in server stack (that way it stays together with the certificate SAN domains)
+#  environment:
+#    - DEFAULT_HOST=$DOMAIN
   ports:
     - '80:80'
     - '443:443'

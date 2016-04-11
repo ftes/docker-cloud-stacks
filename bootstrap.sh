@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export DOMAIN=${DOMAIN:-tc.ftes.de}
+export DOMAIN=${DOMAIN:-tc.ftes.de,ftes.de,www.ftes.de}
 export EMAIL=${EMAIL:-admin@ftes.de}
 export NAME=${NAME:-wordpress-trustedcomputing}
 export SSH_PUB_KEY=`cat ~/.ssh/id_rsa.pub`
@@ -14,5 +14,4 @@ envsubst < authorizedkeys > $TMP_FILE; docker-cloud stack up -n authorizedkeys -
 envsubst < nginx-proxy    > $TMP_FILE; docker-cloud stack up -n nginx-proxy -f $TMP_FILE --sync
 envsubst < wordpress      > $TMP_FILE; docker-cloud stack up -n $NAME -f $TMP_FILE
 
-xdg-open "http://$DOMAIN"
-echo
+#xdg-open "http://$DOMAIN"
