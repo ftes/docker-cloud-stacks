@@ -1,21 +1,22 @@
 #!/bin/bash
 # input: output-dir ssh-user@server stack-name
 
-OUTPUT=${1:-.}
-SSH=${2:-root@ftes.de}
-STACK=${3:-wordpress-trustedcomputing}
+# set variables from env.sh as environment variables
+. env.sh
 
+OUTPUT=${1:-.}
+SSH=${2:-$SSH}
+NAME=${3:-$NAME}
 TMP_DIR=`ssh $SSH mktemp -d`
 RAND=`date +%s | sha256sum | base64 | head -c 10`
 
-echo "docker-cloud run -n backup-$RAND -v $TMP_DIR:/backups --volumes-from=wordpress.$STACK --link=mysql.$STACK:mysql aveltens/wordpress-backup"
-docker-cloud run -n backup-$RAND -v $TMP_DIR:/backups --volumes-from=wordpress.$STACK --link=mysql.$STACK:mysql --sync aveltens/wordpress-backup
+# print commands
+set -x
 
-echo "docker-cloud exec backup-$RAND-1 backup"
+docker-cloud run -n backup-$RAND -v $TMP_DIR:/backups --volumes-from=wordpress.$NAME --link=mysql.$NAME:mysql --sync aveltens/wordpress-backup
+
 docker-cloud exec backup-$RAND-1 backup > /dev/null
 
-echo "scp $SSH:$TMP_DIR/* $OUTPUT"
 scp $SSH:$TMP_DIR/* $OUTPUT
 
-echo "docker-cloud service terminate backup-$RAND"
 docker-cloud service terminate backup-$RAND
