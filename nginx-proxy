@@ -6,7 +6,7 @@ nginx-letsencrypt:
   volumes_from:
     - nginx-proxy
 nginx-proxy:
-  image: 'ftes/nginx-proxy:latest'
+  image: 'jwilder/nginx-proxy:latest'
 # default host won't work well with HTTPS enabled (w/o wildcard cert): certificate errors
 #  environment:
 #    - DEFAULT_HOST=$DEFAULT_DOMAIN
