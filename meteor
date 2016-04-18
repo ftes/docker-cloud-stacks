@@ -1,5 +1,5 @@
 meteor:
- image: ulexus/meteor
+ image: ftes/meteor
  environment:
   - REPO=$REPO
   - ROOT_URL=https://$DOMAIN
