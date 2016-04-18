@@ -3,8 +3,8 @@ meteor:
  environment:
   - REPO=$REPO
   - ROOT_URL=https://$DOMAIN
-  - MONGO_URL=mongodb://mongo/meteor
-  - MONGO_OPLOG_URL=mongodb://admin:$PASSWORD@mongo/local?authSource=admin
+  - MONGO_URL=mongodb://admin:$PASSWORD@mongo/meteor
+  - MONGO_OPLOG_URL=mongodb://oplogger:password@mongo/local?authSource=admin
   - LETSENCRYPT_EMAIL=$EMAIL
   - LETSENCRYPT_HOST=$DOMAIN
   - VIRTUAL_HOST=$DOMAIN
@@ -15,5 +15,6 @@ mongo:
  image: ftes/mongodb
  environment:
   - MONGODB_PASS=$PASSWORD
+  - MONGODB_DATABASE=meteor
   # 50MB OpLog
   - OPLOG_SIZE=50
