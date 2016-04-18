@@ -10,11 +10,11 @@
 
 mysql:
   environment:
-  - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+  - MYSQL_ROOT_PASSWORD=$PASSWORD
 #   next three env vars needed for backup container
   - MYSQL_DATABASE=wordpress
   - MYSQL_USER=wordpress
-  - MYSQL_PASSWORD=$MYSQL_ROOT_PASSWORD
+  - MYSQL_PASSWORD=$PASSWORD
   image: mariadb:latest
 wordpress:
   environment:
